@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="12dp">
+
+        <!-- Connection (Bluetooth-direct only) -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/panel"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <Spinner android:id="@+id/spinnerDevices"
+                android:layout_width="match_parent" android:layout_height="wrap_content"/>
+
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:orientation="horizontal" android:layout_marginTop="6dp">
+                <Button android:id="@+id/btnConnect" android:layout_width="0dp" android:layout_weight="1"
+                    android:layout_height="wrap_content" android:text="Connect"/>
+                <Button android:id="@+id/btnDisconnect" android:layout_width="0dp" android:layout_weight="1"
+                    android:layout_height="wrap_content" android:text="Disconnect"/>
+                <Button android:id="@+id/btnSettings" android:layout_width="0dp" android:layout_weight="1"
+                    android:layout_height="wrap_content" android:text="Settings"/>
+            </LinearLayout>
+
+            <TextView android:id="@+id/txtStatus" android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:text="Disconnected" android:textColor="@color/good" android:textStyle="bold" android:layout_marginTop="4dp"/>
+        </LinearLayout>
+
+        <!-- Live read-out -->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:background="@color/panel" android:orientation="vertical" android:padding="12dp"
+            android:layout_marginTop="10dp" android:gravity="center_horizontal">
+            <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:orientation="horizontal" android:gravity="bottom">
+                <!-- SET (commanded) -->
+                <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:orientation="vertical" android:gravity="center_horizontal" android:layout_marginEnd="28dp">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="SET" android:textColor="@color/dim" android:textSize="13sp"/>
+                    <TextView android:id="@+id/txtSet" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="0" android:textColor="#7FB2E5" android:textSize="48sp" android:textStyle="bold"/>
+                    <TextView android:id="@+id/txtSetUnit" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="km/h" android:textColor="@color/dim" android:textSize="14sp"/>
+                </LinearLayout>
+                <!-- ACTUAL (EDM) -->
+                <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:orientation="vertical" android:gravity="center_horizontal">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="ACTUAL (EDM)" android:textColor="@color/dim" android:textSize="13sp"/>
+                    <TextView android:id="@+id/txtSpeed" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="0.0" android:textColor="#FFFFFF" android:textSize="72sp" android:textStyle="bold"/>
+                    <TextView android:id="@+id/txtUnit" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="km/h" android:textColor="@color/dim" android:textSize="16sp"/>
+                </LinearLayout>
+            </LinearLayout>
+            <TextView android:id="@+id/txtShootout" android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:text="" android:textColor="#E5A33C" android:textStyle="bold" android:visibility="gone"
+                android:layout_marginTop="6dp"/>
+            <TextView android:id="@+id/txtDetail" android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:text="" android:textColor="@color/dim" android:fontFamily="monospace" android:textSize="12sp"
+                android:layout_marginTop="8dp"/>
+            <TextView android:id="@+id/txtMode" android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:text="Mode: NoLoad" android:textColor="@color/accent" android:textSize="18sp"
+                android:textStyle="bold" android:layout_marginTop="6dp"/>
+        </LinearLayout>
+
+        <!-- Mode buttons -->
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="MODE"
+            android:textColor="@color/accent" android:textStyle="bold" android:layout_marginTop="12dp"/>
+        <!-- Always-together mode buttons. Hidden as a whole while a ramp cycle runs. -->
+        <GridLayout android:id="@+id/modeGrid" android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:columnCount="3" android:layout_marginTop="4dp">
+            <Button android:id="@+id/btnNoLoad" android:text="No Load" android:layout_width="0dp" android:layout_columnWeight="1" android:layout_height="wrap_content"/>
+            <Button android:id="@+id/btnSpeed" android:text="Speed" android:layout_width="0dp" android:layout_columnWeight="1" android:layout_height="wrap_content"/>
+            <Button android:id="@+id/btnLoad" android:text="Load" android:layout_width="0dp" android:layout_columnWeight="1" android:layout_height="wrap_content"/>
+            <Button android:id="@+id/btnManualRamp" android:text="Manual Ramp" android:layout_width="0dp" android:layout_columnWeight="1" android:layout_height="wrap_content"/>
+            <Button android:id="@+id/btnAdvanced" android:text="Advanced ▶" android:layout_width="0dp" android:layout_columnWeight="1" android:layout_height="wrap_content"/>
+            <Button android:id="@+id/btnHandsfree" android:text="Hands-free" android:layout_width="0dp" android:layout_columnWeight="1" android:layout_height="wrap_content"/>
+        </GridLayout>
+        <!-- Conditional mode buttons: Set Bed (4WD only), Brake (only when it can engage).
+             Weighted LinearLayout so a hidden button reflows cleanly. Hidden during a ramp cycle. -->
+        <LinearLayout android:id="@+id/conditionalModeRow" android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <Button android:id="@+id/btnSetBed" android:text="Set Bed" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"/>
+            <Button android:id="@+id/btnBrake" android:text="Brake" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"/>
+        </LinearLayout>
+        <!-- Set Bed: hold a button to drive the bed; release stops it (dead-man). Shown only in Set Bed mode. -->
+        <LinearLayout android:id="@+id/bedRow" android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="vertical" android:visibility="gone" android:layout_marginTop="8dp">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="SET BED — hold to move" android:textColor="@color/accent" android:textStyle="bold"/>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+                <Button android:id="@+id/btnBedShorten" android:text="◀ Shorten" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"/>
+                <Button android:id="@+id/btnBedLengthen" android:text="Lengthen ▶" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"/>
+                <Button android:id="@+id/btnBedGo" android:text="Go ▲" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"/>
+            </LinearLayout>
+            <TextView android:id="@+id/txtBed" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="bed —" android:textColor="@color/dim"/>
+        </LinearLayout>
+        <!-- Active ramp stepper: the single button shown while a Manual Ramp / Advanced cycle runs. -->
+        <Button android:id="@+id/btnActiveRamp" android:text="Ramp Up" android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:visibility="gone"/>
+        <!-- Cancel: abort the ramp run and return to the main mode screen. Shown only during a cycle. -->
+        <Button android:id="@+id/btnCancelRamp" android:text="Cancel" android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:backgroundTint="#5A2E2E" android:visibility="gone"/>
+
+        <!-- Target speed -->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginTop="12dp">
+            <TextView android:id="@+id/lblTarget" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"
+                android:text="TARGET SPEED (km/h)" android:textColor="@color/accent" android:textStyle="bold"/>
+            <Button android:id="@+id/btnSpeedMode" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Speed: km/h"/>
+        </LinearLayout>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="horizontal" android:gravity="center_vertical">
+            <Button android:id="@+id/btnSpeedDecL" android:text="-5" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"/>
+            <Button android:id="@+id/btnSpeedDecS" android:text="-1" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"/>
+            <TextView android:id="@+id/txtTarget" android:text="0" android:layout_width="0dp" android:layout_weight="1.4"
+                android:layout_height="wrap_content" android:gravity="center" android:textColor="@color/text" android:textSize="20sp"/>
+            <Button android:id="@+id/btnSpeedIncS" android:text="+1" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"/>
+            <Button android:id="@+id/btnSpeedIncL" android:text="+5" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+        <!-- Target load (fixed-load mode). Shown only in Load mode. The ±large buttons
+             snap to the large-inc grid (Up/Down); the ±small buttons step (Left/Right);
+             the Res button toggles fine/coarse. Mirrors the original EVENT_Load. -->
+        <LinearLayout android:id="@+id/loadRow" android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="vertical" android:visibility="gone" android:layout_marginTop="12dp">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:orientation="horizontal" android:gravity="center_vertical">
+                <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"
+                    android:text="TARGET LOAD (%)" android:textColor="@color/accent" android:textStyle="bold"/>
+                <Button android:id="@+id/btnLoadRes" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="Res: fine"/>
+            </LinearLayout>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:orientation="horizontal" android:gravity="center_vertical">
+                <Button android:id="@+id/btnLoadDecL" android:text="-5" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"/>
+                <Button android:id="@+id/btnLoadDecS" android:text="-0.1" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"/>
+                <TextView android:id="@+id/txtLoad" android:text="0" android:layout_width="0dp" android:layout_weight="1.4"
+                    android:layout_height="wrap_content" android:gravity="center" android:textColor="@color/text" android:textSize="20sp"/>
+                <Button android:id="@+id/btnLoadIncS" android:text="+0.1" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"/>
+                <Button android:id="@+id/btnLoadIncL" android:text="+5" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Ramp rate -->
+        <TextView android:id="@+id/lblRamp" android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="RAMP RATE (km/h/s)" android:textColor="@color/accent" android:textStyle="bold" android:layout_marginTop="12dp"/>
+        <LinearLayout android:id="@+id/rampRow" android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="horizontal" android:gravity="center_vertical">
+            <Button android:id="@+id/btnRampDecL" android:text="-10" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"/>
+            <Button android:id="@+id/btnRampDecS" android:text="-1" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"/>
+            <TextView android:id="@+id/txtRamp" android:text="80" android:layout_width="0dp" android:layout_weight="1.4"
+                android:layout_height="wrap_content" android:gravity="center" android:textColor="@color/text" android:textSize="20sp"/>
+            <Button android:id="@+id/btnRampIncS" android:text="+1" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"/>
+            <Button android:id="@+id/btnRampIncL" android:text="+10" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+        <!-- Fans + 4WD -->
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="FANS / CONFIG"
+            android:textColor="@color/accent" android:textStyle="bold" android:layout_marginTop="12dp"/>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="horizontal" android:gravity="center_vertical">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Fan1" android:textColor="@color/dim"/>
+            <Spinner android:id="@+id/spinnerFan1" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Fan2" android:textColor="@color/dim" android:layout_marginStart="8dp"/>
+            <Spinner android:id="@+id/spinnerFan2" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"/>
+            <Switch android:id="@+id/switch4wd" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="4WD" android:textColor="@color/text" android:layout_marginStart="8dp"/>
+        </LinearLayout>
+
+        <!-- 4WD balance (front/rear) -->
+        <LinearLayout android:id="@+id/balanceRow" android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginTop="6dp"
+            android:visibility="gone">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Balance"
+                android:textColor="@color/dim"/>
+            <Button android:id="@+id/btnBalDec" android:text="Rear" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"/>
+            <TextView android:id="@+id/txtBalance" android:text="0.0" android:layout_width="0dp" android:layout_weight="1"
+                android:layout_height="wrap_content" android:gravity="center" android:textColor="@color/text"/>
+            <Button android:id="@+id/btnBalInc" android:text="Front" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="horizontal" android:layout_marginTop="4dp">
+            <Button android:id="@+id/btnSnapshot" android:text="Snapshot" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"/>
+            <Button android:id="@+id/btnGraphClear" android:text="Clear Graph" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"/>
+            <Button android:id="@+id/btnSwap" android:text="Swap Screens" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+        <!-- Diagnostics: counters -->
+        <TextView android:id="@+id/txtDiag" android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:background="@color/panel_dark" android:fontFamily="monospace" android:textColor="@color/dim"
+            android:textSize="11sp" android:padding="8dp" android:layout_marginTop="12dp"
+            android:text="TX 0  RX 0  err 0"/>
+
+        <!-- Diagnostics: packet-types-seen inspector -->
+        <TextView android:id="@+id/txtSeen" android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:background="@color/panel_dark" android:fontFamily="monospace" android:textColor="@color/dim"
+            android:textSize="10sp" android:padding="8dp" android:layout_marginTop="6dp"
+            android:text="" android:visibility="gone"/>
+
+        <!-- Diagnostics: packet log -->
+        <TextView android:id="@+id/txtLog" android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:background="@color/panel_dark" android:fontFamily="monospace" android:textColor="@color/dim"
+            android:textSize="10sp" android:padding="8dp" android:layout_marginTop="6dp"
+            android:text="" android:visibility="gone"/>
+    </LinearLayout>
+</ScrollView>

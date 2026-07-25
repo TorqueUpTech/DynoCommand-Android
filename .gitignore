@@ -1,0 +1,29 @@
+# ---- Build output / artifacts ----
+dist/
+build/
+.gradle/
+*.apk
+*.aab
+captures/
+
+# ---- Machine-specific ----
+# sdk.dir points at this machine's Android SDK.
+local.properties
+
+# ---- Signing material ----
+*.jks
+*.keystore
+keystore.properties
+
+# ---- IDE ----
+.idea/
+*.iml
+.vs/
+*.user
+
+# ---- Captured comms traces ----
+dyno-capture-*.txt
+
+# ---- OS ----
+Thumbs.db
+.DS_Store

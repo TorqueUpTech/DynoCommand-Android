@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="CONNECTION"
+            android:textColor="@color/accent" android:textStyle="bold"/>
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="EDM address (BT MAC, or IP:port for TCP)" android:textColor="@color/dim"/>
+        <EditText android:id="@+id/editEdm" android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:textColor="@color/text" android:inputType="text" android:hint="0012F3026E45  or  127.0.0.1:51730"/>
+        <Switch android:id="@+id/switchAutoConnect" android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="Auto-connect at startup" android:textColor="@color/text"/>
+
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="DYNO TYPE"
+            android:textColor="@color/accent" android:textStyle="bold" android:layout_marginTop="12dp"/>
+        <Switch android:id="@+id/switchIs4wd" android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="4WD bed (send balance packet)" android:textColor="@color/text"/>
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Bed length min (m) — 'Shorten' target" android:textColor="@color/dim"/>
+        <EditText android:id="@+id/editBedMin" android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:textColor="@color/text" android:inputType="numberDecimal"/>
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Bed length max (m) — 'Lengthen' target" android:textColor="@color/dim"/>
+        <EditText android:id="@+id/editBedMax" android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:textColor="@color/text" android:inputType="numberDecimal"/>
+
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="DIAGNOSTICS / FEEDBACK"
+            android:textColor="@color/accent" android:textStyle="bold" android:layout_marginTop="12dp"/>
+        <Switch android:id="@+id/switchLogComms" android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="Log comms to file" android:textColor="@color/text"/>
+        <Switch android:id="@+id/switchShowLog" android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="Show packet log" android:textColor="@color/text"/>
+        <Switch android:id="@+id/switchShowSeen" android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="Show packet types seen" android:textColor="@color/text"/>
+        <Switch android:id="@+id/switchAudible" android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="Audible feedback" android:textColor="@color/text"/>
+
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="SPEED"
+            android:textColor="@color/accent" android:textStyle="bold" android:layout_marginTop="12dp"/>
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Units" android:textColor="@color/dim"/>
+        <Spinner android:id="@+id/spinnerUnits" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Speed control" android:textColor="@color/dim"/>
+        <Spinner android:id="@+id/spinnerControl" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Roller diameter (m)" android:textColor="@color/dim"/>
+        <EditText android:id="@+id/editRoller" android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:textColor="@color/text" android:inputType="numberDecimal"/>
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Gear ratio" android:textColor="@color/dim"/>
+        <EditText android:id="@+id/editGear" android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:textColor="@color/text" android:inputType="numberDecimal"/>
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Max speed (km/h)" android:textColor="@color/dim"/>
+        <EditText android:id="@+id/editMaxKph" android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:textColor="@color/text" android:inputType="numberDecimal"/>
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Max speed (mph)" android:textColor="@color/dim"/>
+        <EditText android:id="@+id/editMaxMph" android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:textColor="@color/text" android:inputType="numberDecimal"/>
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Max speed (rpm)" android:textColor="@color/dim"/>
+        <EditText android:id="@+id/editMaxRpm" android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:textColor="@color/text" android:inputType="numberDecimal"/>
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Increment km/h (small)" android:textColor="@color/dim"/>
+        <EditText android:id="@+id/editIncSmallKph" android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:textColor="@color/text" android:inputType="numberDecimal"/>
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Increment km/h (large)" android:textColor="@color/dim"/>
+        <EditText android:id="@+id/editIncLargeKph" android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:textColor="@color/text" android:inputType="numberDecimal"/>
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Increment mph (small)" android:textColor="@color/dim"/>
+        <EditText android:id="@+id/editIncSmallMph" android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:textColor="@color/text" android:inputType="numberDecimal"/>
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Increment mph (large)" android:textColor="@color/dim"/>
+        <EditText android:id="@+id/editIncLargeMph" android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:textColor="@color/text" android:inputType="numberDecimal"/>
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Increment rpm (small)" android:textColor="@color/dim"/>
+        <EditText android:id="@+id/editIncSmallRpm" android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:textColor="@color/text" android:inputType="numberDecimal"/>
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Increment rpm (large)" android:textColor="@color/dim"/>
+        <EditText android:id="@+id/editIncLargeRpm" android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:textColor="@color/text" android:inputType="numberDecimal"/>
+
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Start speed (active unit)" android:textColor="@color/dim"/>
+        <EditText android:id="@+id/editStartSpeed" android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:textColor="@color/text" android:inputType="numberDecimal"/>
+
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="LOAD (fixed-load mode, %)"
+            android:textColor="@color/accent" android:textStyle="bold" android:layout_marginTop="12dp"/>
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Load min (%)" android:textColor="@color/dim"/>
+        <EditText android:id="@+id/editLoadMin" android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:textColor="@color/text" android:inputType="numberDecimal"/>
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Load max (%)" android:textColor="@color/dim"/>
+        <EditText android:id="@+id/editLoadMax" android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:textColor="@color/text" android:inputType="numberDecimal"/>
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Fine inc (small)" android:textColor="@color/dim"/>
+        <EditText android:id="@+id/editLoadFineSmall" android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:textColor="@color/text" android:inputType="numberDecimal"/>
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Fine inc (large)" android:textColor="@color/dim"/>
+        <EditText android:id="@+id/editLoadFineLarge" android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:textColor="@color/text" android:inputType="numberDecimal"/>
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Coarse inc (small)" android:textColor="@color/dim"/>
+        <EditText android:id="@+id/editLoadCoarseSmall" android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:textColor="@color/text" android:inputType="numberDecimal"/>
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Coarse inc (large)" android:textColor="@color/dim"/>
+        <EditText android:id="@+id/editLoadCoarseLarge" android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:textColor="@color/text" android:inputType="numberDecimal"/>
+        <Switch android:id="@+id/switchLoadResFine" android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="Fine load resolution by default (off = coarse)" android:textColor="@color/text"/>
+
+        <Button android:id="@+id/btnSave" android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="Save" android:layout_marginTop="16dp"/>
+    </LinearLayout>
+</ScrollView>

@@ -1,0 +1,10 @@
+<resources>
+    <color name="bg">#15181C</color>
+    <color name="panel">#1C2127</color>
+    <color name="panel_dark">#0E1013</color>
+    <color name="accent">#7FB2E5</color>
+    <color name="text">#E8EBEE</color>
+    <color name="dim">#9AA4B0</color>
+    <color name="good">#8FD08F</color>
+    <color name="ic_launcher_background">#15181C</color>
+</resources>
