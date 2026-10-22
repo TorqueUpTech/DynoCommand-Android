@@ -33,6 +33,7 @@ import com.dynocommand.app.protocol.TransmissionType
 import com.dynocommand.app.service.DynoConnectionService
 import com.dynocommand.app.settings.AppSettings
 import com.dynocommand.app.settings.SettingsStore
+import kotlin.math.abs
 import kotlin.math.ceil
 import kotlin.math.floor
 import kotlin.math.round
@@ -130,8 +131,8 @@ class MainActivity : AppCompatActivity() {
         wireBedButtons()
         wireActions()
 
-        b.btnConnect.setOnClickListener { connect() }
-        b.btnDisconnect.setOnClickListener { disconnect() }
+        // One button: Connect when idle, Disconnect while a link is wanted (incl. reconnecting).
+        b.btnConnect.setOnClickListener { if (DynoLink.wantConnected) disconnect() else connect() }
         b.btnSettings.setOnClickListener { startActivity(Intent(this, SettingsActivity::class.java)) }
 
         b.switch4wd.setOnCheckedChangeListener { _, v -> controller.command.is4Wd = v }
@@ -277,7 +278,8 @@ class MainActivity : AppCompatActivity() {
             c.fromKph(controller.state.speedKph)
         else
             c.startSpeed
-        return minOf(start, settings.maxForCurrentUnit())
+        // Whole numbers only (the live speed is fractional).
+        return minOf(round(start), settings.maxForCurrentUnit())
     }
 
     /**
@@ -382,9 +384,18 @@ class MainActivity : AppCompatActivity() {
         b.btnSwap.setOnClickListener { controller.command.swapScreenRequests++; beep() }
     }
 
+    /**
+     * Step the target speed on the button's own grid so it stays a whole number:
+     * ±1 lands on whole km/h, ±5 on multiples of 5 (63 +5 -> 65, 63 -5 -> 60).
+     * Mirrors MainViewModel.NudgeSpeed.
+     */
     private fun nudge(amount: Double) {
         val c = controller.command
-        c.requestedSpeed = (c.requestedSpeed + amount).coerceIn(0.0, settings.maxForCurrentUnit())
+        val step = abs(amount)
+        val v = c.requestedSpeed
+        val next = if (amount > 0) floor(v / step + 1e-9) * step + step
+                   else ceil(v / step - 1e-9) * step - step
+        c.requestedSpeed = next.coerceIn(0.0, settings.maxForCurrentUnit())
     }
 
     private fun nudgeRamp(amount: Double) {
@@ -548,6 +559,11 @@ class MainActivity : AppCompatActivity() {
         val c = controller.command
 
         b.txtStatus.text = DynoLink.status
+        if (DynoLink.wantConnected) {
+            b.btnConnect.text = "Disconnect"; b.btnConnect.setIconResource(R.drawable.ic_close)
+        } else {
+            b.btnConnect.text = "Connect"; b.btnConnect.setIconResource(R.drawable.ic_link)
+        }
         b.txtSpeed.text = "%.1f".format(s.speedKph)
         b.txtSet.text = fmt(c.requestedSpeed)
         b.txtTarget.text = fmt(c.requestedSpeed)

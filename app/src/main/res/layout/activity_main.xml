@@ -24,12 +24,10 @@
                 android:layout_width="match_parent" android:layout_height="wrap_content"/>
 
             <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-                android:orientation="horizontal" android:layout_marginTop="6dp">
-                <Button android:id="@+id/btnConnect" app:icon="@drawable/ic_link" app:iconGravity="textStart" android:layout_width="0dp" android:layout_weight="1"
+                android:orientation="horizontal" android:baselineAligned="false" android:layout_marginTop="6dp">
+                <com.google.android.material.button.MaterialButton android:id="@+id/btnConnect" android:maxLines="1" android:ellipsize="end" android:letterSpacing="0" android:paddingStart="6dp" android:paddingEnd="6dp" app:iconPadding="4dp" app:icon="@drawable/ic_link" app:iconGravity="textStart" android:layout_width="0dp" android:layout_weight="1"
                     android:layout_height="wrap_content" android:text="Connect"/>
-                <Button android:id="@+id/btnDisconnect" app:icon="@drawable/ic_close" app:iconGravity="textStart" android:layout_width="0dp" android:layout_weight="1"
-                    android:layout_height="wrap_content" android:text="Disconnect"/>
-                <Button android:id="@+id/btnSettings" app:icon="@drawable/ic_settings" app:iconGravity="textStart" android:layout_width="0dp" android:layout_weight="1"
+                <Button android:id="@+id/btnSettings" android:maxLines="1" android:ellipsize="end" android:letterSpacing="0" android:paddingStart="6dp" android:paddingEnd="6dp" app:iconPadding="4dp" app:icon="@drawable/ic_settings" app:iconGravity="textStart" android:layout_width="0dp" android:layout_weight="1"
                     android:layout_height="wrap_content" android:text="Settings"/>
             </LinearLayout>
 
@@ -42,7 +40,7 @@
             android:background="@color/panel" android:orientation="vertical" android:padding="12dp"
             android:layout_marginTop="10dp" android:gravity="center_horizontal">
             <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:orientation="horizontal" android:gravity="bottom">
+                android:orientation="horizontal" android:baselineAligned="false" android:gravity="bottom">
                 <!-- SET (commanded) -->
                 <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
                     android:orientation="vertical" android:gravity="center_horizontal" android:layout_marginEnd="28dp">
@@ -91,7 +89,7 @@
         <!-- Conditional mode buttons: Set Bed (4WD only), Brake (only when it can engage).
              Weighted LinearLayout so a hidden button reflows cleanly. Hidden during a ramp cycle. -->
         <LinearLayout android:id="@+id/conditionalModeRow" android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal" android:baselineAligned="false">
             <Button android:id="@+id/btnSetBed" app:icon="@drawable/ic_bed" app:iconGravity="top" app:iconPadding="2dp" android:text="Set Bed" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"/>
             <com.google.android.material.button.MaterialButton android:id="@+id/btnBrake" app:icon="@drawable/ic_brake" app:iconGravity="top" app:iconPadding="2dp" android:text="Brake" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"/>
         </LinearLayout>
@@ -100,7 +98,7 @@
             android:orientation="vertical" android:visibility="gone" android:layout_marginTop="8dp">
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                 android:text="SET BED — hold to move" android:textColor="@color/accent" android:textStyle="bold"/>
-            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:baselineAligned="false">
                 <Button android:id="@+id/btnBedShorten" android:text="◀ Shorten" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"/>
                 <Button android:id="@+id/btnBedLengthen" android:text="Lengthen ▶" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"/>
                 <Button android:id="@+id/btnBedGo" android:text="Go ▲" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"/>
@@ -117,14 +115,14 @@
 
         <!-- Target speed -->
         <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginTop="12dp">
+            android:orientation="horizontal" android:baselineAligned="false" android:gravity="center_vertical" android:layout_marginTop="12dp">
             <TextView android:id="@+id/lblTarget" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"
                 android:text="TARGET SPEED (km/h)" android:textColor="@color/accent" android:textStyle="bold"/>
             <Button android:id="@+id/btnSpeedMode" android:layout_width="wrap_content" android:layout_height="wrap_content"
                 android:text="Speed: km/h"/>
         </LinearLayout>
         <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:orientation="horizontal" android:gravity="center_vertical">
+            android:orientation="horizontal" android:baselineAligned="false" android:gravity="center_vertical">
             <Button android:id="@+id/btnSpeedDecL" android:text="-5" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"/>
             <Button android:id="@+id/btnSpeedDecS" android:text="-1" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"/>
             <TextView android:id="@+id/txtTarget" android:text="0" android:layout_width="0dp" android:layout_weight="1.4"
@@ -139,14 +137,14 @@
         <LinearLayout android:id="@+id/loadRow" android:layout_width="match_parent" android:layout_height="wrap_content"
             android:orientation="vertical" android:visibility="gone" android:layout_marginTop="12dp">
             <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-                android:orientation="horizontal" android:gravity="center_vertical">
+                android:orientation="horizontal" android:baselineAligned="false" android:gravity="center_vertical">
                 <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"
                     android:text="TARGET LOAD (%)" android:textColor="@color/accent" android:textStyle="bold"/>
                 <Button android:id="@+id/btnLoadRes" android:layout_width="wrap_content" android:layout_height="wrap_content"
                     android:text="Res: fine"/>
             </LinearLayout>
             <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-                android:orientation="horizontal" android:gravity="center_vertical">
+                android:orientation="horizontal" android:baselineAligned="false" android:gravity="center_vertical">
                 <Button android:id="@+id/btnLoadDecL" android:text="-5" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"/>
                 <Button android:id="@+id/btnLoadDecS" android:text="-0.1" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"/>
                 <TextView android:id="@+id/txtLoad" android:text="0" android:layout_width="0dp" android:layout_weight="1.4"
@@ -160,7 +158,7 @@
         <TextView android:id="@+id/lblRamp" android:layout_width="wrap_content" android:layout_height="wrap_content"
             android:text="RAMP RATE (km/h/s)" android:textColor="@color/accent" android:textStyle="bold" android:layout_marginTop="12dp"/>
         <LinearLayout android:id="@+id/rampRow" android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:orientation="horizontal" android:gravity="center_vertical">
+            android:orientation="horizontal" android:baselineAligned="false" android:gravity="center_vertical">
             <Button android:id="@+id/btnRampDecL" android:text="-10" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"/>
             <Button android:id="@+id/btnRampDecS" android:text="-1" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"/>
             <TextView android:id="@+id/txtRamp" android:text="80" android:layout_width="0dp" android:layout_weight="1.4"
@@ -173,7 +171,7 @@
         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="FANS / CONFIG"
             android:textColor="@color/accent" android:textStyle="bold" android:layout_marginTop="12dp"/>
         <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:orientation="horizontal" android:gravity="center_vertical">
+            android:orientation="horizontal" android:baselineAligned="false" android:gravity="center_vertical">
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Fan1" android:textColor="@color/dim"/>
             <Spinner android:id="@+id/spinnerFan1" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"/>
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Fan2" android:textColor="@color/dim" android:layout_marginStart="8dp"/>
@@ -184,7 +182,7 @@
 
         <!-- 4WD balance (front/rear) -->
         <LinearLayout android:id="@+id/balanceRow" android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginTop="6dp"
+            android:orientation="horizontal" android:baselineAligned="false" android:gravity="center_vertical" android:layout_marginTop="6dp"
             android:visibility="gone">
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Balance"
                 android:textColor="@color/dim"/>
@@ -195,10 +193,10 @@
         </LinearLayout>
 
         <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:orientation="horizontal" android:layout_marginTop="4dp">
-            <Button android:id="@+id/btnSnapshot" app:icon="@drawable/ic_camera" app:iconGravity="textStart" android:text="Snapshot" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"/>
-            <Button android:id="@+id/btnGraphClear" app:icon="@drawable/ic_delete" app:iconGravity="textStart" android:text="Clear Graph" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"/>
-            <Button android:id="@+id/btnSwap" app:icon="@drawable/ic_swap" app:iconGravity="textStart" android:text="Swap Screens" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"/>
+            android:orientation="horizontal" android:baselineAligned="false" android:layout_marginTop="4dp">
+            <Button android:id="@+id/btnSnapshot" android:maxLines="1" android:ellipsize="end" android:letterSpacing="0" android:paddingStart="6dp" android:paddingEnd="6dp" app:iconPadding="4dp" app:icon="@drawable/ic_camera" app:iconGravity="textStart" android:text="Snapshot" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"/>
+            <Button android:id="@+id/btnGraphClear" android:maxLines="1" android:ellipsize="end" android:letterSpacing="0" android:paddingStart="6dp" android:paddingEnd="6dp" app:iconPadding="4dp" app:icon="@drawable/ic_delete" app:iconGravity="textStart" android:text="Clear Graph" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"/>
+            <Button android:id="@+id/btnSwap" android:maxLines="1" android:ellipsize="end" android:letterSpacing="0" android:paddingStart="6dp" android:paddingEnd="6dp" app:iconPadding="4dp" app:icon="@drawable/ic_swap" app:iconGravity="textStart" android:text="Swap Screens" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"/>
         </LinearLayout>
 
         <!-- Diagnostics: counters -->
