@@ -6,6 +6,11 @@ framing, packet factory and parser), so the wire format matches the original
 firmware. Same two modes as the PC tool: a built-in **simulator** (test with no
 hardware) and real **Bluetooth SPP** to the EDM.
 
+## Screenshots
+| Main screen | Brake on (auto-releases after 2 min) | Target, ramp and fan controls |
+|---|---|---|
+| ![Main screen](docs/screenshots/main.png) | ![Brake on](docs/screenshots/brake-on.png) | ![Controls](docs/screenshots/controls.png) |
+
 ## Sibling project — keep in sync
 This app is a **parallel port of [DynoCommandPC](../DynoCommandPC)** (WPF/.NET8).
 The two are behaviour-for-behaviour equivalents: **every control/protocol change
@@ -14,9 +19,13 @@ ports were written against live in the reference folder `../Dyno-Command+EDM`
 (`Original/`, `Server/`, `DYNO_CONVERSION_NOTES.md`, `Documentation/`).
 
 ## Install the prebuilt APK
-- File: **`dist/DynoCommand-debug.apk`** (debug-signed, installable directly).
+- Download **`DynoCommand-<version>.apk`** from the
+  [latest release](https://github.com/TorqueUpTech/DynoCommand-Android/releases/latest).
 - Copy to the phone and tap it (enable "install from unknown sources" if asked),
-  or via ADB: `adb install -r dist/DynoCommand-debug.apk`.
+  or via ADB: `adb install -r DynoCommand-<version>.apk`.
+- Release APKs are signed with the TorqueUp release key. A phone running a
+  debug build must uninstall it first (different signature); that clears the
+  app's saved settings.
 - Min Android **8.0 (API 26)**.
 
 ## Using it
@@ -33,10 +42,15 @@ ports were written against live in the reference folder `../Dyno-Command+EDM`
    equivalent of PdaSettings.xml).
 
 ## Build it yourself
-Requires JDK 17+ and the Android SDK (platform 34, build-tools 34.0.0).
+Requires JDK 17-21 (Gradle 8.9 does not run on newer JDKs) and the Android SDK
+(platform 34, build-tools 34.0.0).
 ```
 ./gradlew assembleDebug          # -> app/build/outputs/apk/debug/app-debug.apk
+./gradlew assembleRelease        # -> app/build/outputs/apk/release/app-release.apk
 ```
+Release builds are signed only when `%USERPROFILE%\.android\dynocommand-release.properties`
+exists (`storeFile`, `storePassword`, `keyAlias`, `keyPassword`); the key is kept out
+of the repo. Without it the release APK is unsigned.
 `local.properties` must point at the SDK (`sdk.dir=...`, forward slashes on
 Windows). Or just open this folder in Android Studio and Run.
 

@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -11,8 +13,8 @@ android {
         applicationId = "com.dynocommand.app"
         minSdk = 26
         targetSdk = 34
-        versionCode = 1
-        versionName = "0.1"
+        versionCode = 2
+        versionName = "1.0.0"
     }
 
     buildFeatures {
@@ -27,8 +29,25 @@ android {
         jvmTarget = "17"
     }
 
+    // Release signing key lives OUTSIDE the repo (never commit it):
+    // %USERPROFILE%\.android\dynocommand-release.properties -> storeFile/storePassword/keyAlias/keyPassword.
+    // Without it, release builds come out unsigned.
+    val releaseKeyProps = File(System.getProperty("user.home"), ".android/dynocommand-release.properties")
+    signingConfigs {
+        if (releaseKeyProps.exists()) {
+            val p = Properties().apply { releaseKeyProps.inputStream().use { load(it) } }
+            create("release") {
+                storeFile = file(p.getProperty("storeFile"))
+                storePassword = p.getProperty("storePassword")
+                keyAlias = p.getProperty("keyAlias")
+                keyPassword = p.getProperty("keyPassword")
+            }
+        }
+    }
+
     buildTypes {
         release {
+            signingConfigs.findByName("release")?.let { signingConfig = it }
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
