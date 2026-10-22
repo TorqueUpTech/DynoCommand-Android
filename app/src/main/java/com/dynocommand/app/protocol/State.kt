@@ -77,6 +77,8 @@ class CommandState {
     var swapScreenRequests = 0
     /** When >0, briefly send the Speed command bit to clear the dyno's latched brake warning. */
     var brakeClearRequests = 0
+    /** Wall-clock ms the brake was engaged (0 = off); drives the auto-release. */
+    var brakeOnSinceMs = 0L
 }
 
 /** Decoded live state received from the dyno (via the EDM). */

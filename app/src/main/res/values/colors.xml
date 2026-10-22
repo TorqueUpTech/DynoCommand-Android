@@ -6,5 +6,6 @@
     <color name="text">#E8EBEE</color>
     <color name="dim">#9AA4B0</color>
     <color name="good">#8FD08F</color>
+    <color name="brake_on">#D32F2F</color>
     <color name="ic_launcher_background">#15181C</color>
 </resources>

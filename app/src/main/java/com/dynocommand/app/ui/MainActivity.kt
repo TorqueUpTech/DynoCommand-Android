@@ -19,7 +19,11 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import android.content.Intent
+import android.content.res.ColorStateList
+import android.graphics.Color
+import com.dynocommand.app.BRAKE_AUTO_OFF_MS
 import com.dynocommand.app.DynoLink
+import com.dynocommand.app.R
 import com.dynocommand.app.databinding.ActivityMainBinding
 import com.dynocommand.app.protocol.DynoMode
 import com.dynocommand.app.protocol.FanMode
@@ -78,6 +82,9 @@ class MainActivity : AppCompatActivity() {
 
     // Brake is only offered when it can actually engage (at/below the interlock speed).
     private val brakeEngageMaxKph = 5.0
+    // Theme tint the Brake button returns to when the brake is released (it goes red while on).
+    private var brakeDefaultTint: ColorStateList? = null
+    private var brakeDefaultText: ColorStateList? = null
 
     // Speed-mode (road<->engine / unit) may only change near a standstill — see cycleSpeedMode.
     private val speedModeChangeMaxKph = 10.0
@@ -222,6 +229,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun wireModeButtons() {
+        brakeDefaultTint = b.btnBrake.backgroundTintList
+        brakeDefaultText = b.btnBrake.textColors
         b.btnNoLoad.setOnClickListener { setMode(DynoMode.NoLoad) }
         b.btnSpeed.setOnClickListener { setMode(DynoMode.Speed) }
         b.btnLoad.setOnClickListener { setMode(DynoMode.Load) }
@@ -568,7 +577,22 @@ class MainActivity : AppCompatActivity() {
             b.btnBrake.visibility = if (brakeVisible) View.VISIBLE else View.GONE
             b.txtMode.text = "Mode: ${c.mode}"
         }
-        b.btnBrake.text = if (c.mode == DynoMode.Brake) "Brake: ON" else "Brake"
+        // Brake: red while engaged, with the time left before it auto-releases (see
+        // DynoController.autoReleaseBrake).
+        if (c.mode == DynoMode.Brake) {
+            val since = c.brakeOnSinceMs
+            val leftS = if (since == 0L) BRAKE_AUTO_OFF_MS / 1000
+                else ((BRAKE_AUTO_OFF_MS - (System.currentTimeMillis() - since)).coerceAtLeast(0) + 999) / 1000
+            b.btnBrake.text = "Brake: ON  %d:%02d".format(leftS / 60, leftS % 60)
+            b.btnBrake.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.brake_on))
+            b.btnBrake.setTextColor(Color.WHITE)
+            b.btnBrake.iconTint = ColorStateList.valueOf(Color.WHITE)
+        } else {
+            b.btnBrake.text = "Brake"
+            b.btnBrake.backgroundTintList = brakeDefaultTint
+            b.btnBrake.setTextColor(brakeDefaultText)
+            b.btnBrake.iconTint = brakeDefaultText
+        }
 
         // Target-load panel: shown only in fixed-Load mode (hidden during a ramp cycle).
         val loadActive = c.mode == DynoMode.Load && !inRampRun

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg"
@@ -24,11 +25,11 @@
 
             <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
                 android:orientation="horizontal" android:layout_marginTop="6dp">
-                <Button android:id="@+id/btnConnect" android:layout_width="0dp" android:layout_weight="1"
+                <Button android:id="@+id/btnConnect" app:icon="@drawable/ic_link" app:iconGravity="textStart" android:layout_width="0dp" android:layout_weight="1"
                     android:layout_height="wrap_content" android:text="Connect"/>
-                <Button android:id="@+id/btnDisconnect" android:layout_width="0dp" android:layout_weight="1"
+                <Button android:id="@+id/btnDisconnect" app:icon="@drawable/ic_close" app:iconGravity="textStart" android:layout_width="0dp" android:layout_weight="1"
                     android:layout_height="wrap_content" android:text="Disconnect"/>
-                <Button android:id="@+id/btnSettings" android:layout_width="0dp" android:layout_weight="1"
+                <Button android:id="@+id/btnSettings" app:icon="@drawable/ic_settings" app:iconGravity="textStart" android:layout_width="0dp" android:layout_weight="1"
                     android:layout_height="wrap_content" android:text="Settings"/>
             </LinearLayout>
 
@@ -80,19 +81,19 @@
         <!-- Always-together mode buttons. Hidden as a whole while a ramp cycle runs. -->
         <GridLayout android:id="@+id/modeGrid" android:layout_width="match_parent" android:layout_height="wrap_content"
             android:columnCount="3" android:layout_marginTop="4dp">
-            <Button android:id="@+id/btnNoLoad" android:text="No Load" android:layout_width="0dp" android:layout_columnWeight="1" android:layout_height="wrap_content"/>
-            <Button android:id="@+id/btnSpeed" android:text="Speed" android:layout_width="0dp" android:layout_columnWeight="1" android:layout_height="wrap_content"/>
-            <Button android:id="@+id/btnLoad" android:text="Load" android:layout_width="0dp" android:layout_columnWeight="1" android:layout_height="wrap_content"/>
-            <Button android:id="@+id/btnManualRamp" android:text="Manual Ramp" android:layout_width="0dp" android:layout_columnWeight="1" android:layout_height="wrap_content"/>
-            <Button android:id="@+id/btnAdvanced" android:text="Advanced ▶" android:layout_width="0dp" android:layout_columnWeight="1" android:layout_height="wrap_content"/>
-            <Button android:id="@+id/btnHandsfree" android:text="Hands-free" android:layout_width="0dp" android:layout_columnWeight="1" android:layout_height="wrap_content"/>
+            <Button android:id="@+id/btnNoLoad" app:icon="@drawable/ic_pause" app:iconGravity="top" app:iconPadding="2dp" android:text="No Load" android:layout_width="0dp" android:layout_columnWeight="1" android:layout_height="wrap_content"/>
+            <Button android:id="@+id/btnSpeed" app:icon="@drawable/ic_speed" app:iconGravity="top" app:iconPadding="2dp" android:text="Speed" android:layout_width="0dp" android:layout_columnWeight="1" android:layout_height="wrap_content"/>
+            <Button android:id="@+id/btnLoad" app:icon="@drawable/ic_load" app:iconGravity="top" app:iconPadding="2dp" android:text="Load" android:layout_width="0dp" android:layout_columnWeight="1" android:layout_height="wrap_content"/>
+            <Button android:id="@+id/btnManualRamp" app:icon="@drawable/ic_ramp" app:iconGravity="top" app:iconPadding="2dp" android:text="Manual Ramp" android:layout_width="0dp" android:layout_columnWeight="1" android:layout_height="wrap_content"/>
+            <Button android:id="@+id/btnAdvanced" app:icon="@drawable/ic_tune" app:iconGravity="top" app:iconPadding="2dp" android:text="Advanced" android:layout_width="0dp" android:layout_columnWeight="1" android:layout_height="wrap_content"/>
+            <Button android:id="@+id/btnHandsfree" app:icon="@drawable/ic_auto" app:iconGravity="top" app:iconPadding="2dp" android:text="Hands-free" android:layout_width="0dp" android:layout_columnWeight="1" android:layout_height="wrap_content"/>
         </GridLayout>
         <!-- Conditional mode buttons: Set Bed (4WD only), Brake (only when it can engage).
              Weighted LinearLayout so a hidden button reflows cleanly. Hidden during a ramp cycle. -->
         <LinearLayout android:id="@+id/conditionalModeRow" android:layout_width="match_parent" android:layout_height="wrap_content"
             android:orientation="horizontal">
-            <Button android:id="@+id/btnSetBed" android:text="Set Bed" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"/>
-            <Button android:id="@+id/btnBrake" android:text="Brake" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"/>
+            <Button android:id="@+id/btnSetBed" app:icon="@drawable/ic_bed" app:iconGravity="top" app:iconPadding="2dp" android:text="Set Bed" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"/>
+            <com.google.android.material.button.MaterialButton android:id="@+id/btnBrake" app:icon="@drawable/ic_brake" app:iconGravity="top" app:iconPadding="2dp" android:text="Brake" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"/>
         </LinearLayout>
         <!-- Set Bed: hold a button to drive the bed; release stops it (dead-man). Shown only in Set Bed mode. -->
         <LinearLayout android:id="@+id/bedRow" android:layout_width="match_parent" android:layout_height="wrap_content"
@@ -108,10 +109,10 @@
                 android:text="bed —" android:textColor="@color/dim"/>
         </LinearLayout>
         <!-- Active ramp stepper: the single button shown while a Manual Ramp / Advanced cycle runs. -->
-        <Button android:id="@+id/btnActiveRamp" android:text="Ramp Up" android:layout_width="match_parent"
+        <Button android:id="@+id/btnActiveRamp" app:icon="@drawable/ic_ramp" app:iconGravity="textStart" android:text="Ramp Up" android:layout_width="match_parent"
             android:layout_height="wrap_content" android:visibility="gone"/>
         <!-- Cancel: abort the ramp run and return to the main mode screen. Shown only during a cycle. -->
-        <Button android:id="@+id/btnCancelRamp" android:text="Cancel" android:layout_width="match_parent"
+        <Button android:id="@+id/btnCancelRamp" app:icon="@drawable/ic_close" app:iconGravity="textStart" android:text="Cancel" android:layout_width="match_parent"
             android:layout_height="wrap_content" android:backgroundTint="#5A2E2E" android:visibility="gone"/>
 
         <!-- Target speed -->
@@ -195,9 +196,9 @@
 
         <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
             android:orientation="horizontal" android:layout_marginTop="4dp">
-            <Button android:id="@+id/btnSnapshot" android:text="Snapshot" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"/>
-            <Button android:id="@+id/btnGraphClear" android:text="Clear Graph" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"/>
-            <Button android:id="@+id/btnSwap" android:text="Swap Screens" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"/>
+            <Button android:id="@+id/btnSnapshot" app:icon="@drawable/ic_camera" app:iconGravity="textStart" android:text="Snapshot" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"/>
+            <Button android:id="@+id/btnGraphClear" app:icon="@drawable/ic_delete" app:iconGravity="textStart" android:text="Clear Graph" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"/>
+            <Button android:id="@+id/btnSwap" app:icon="@drawable/ic_swap" app:iconGravity="textStart" android:text="Swap Screens" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"/>
         </LinearLayout>
 
         <!-- Diagnostics: counters -->

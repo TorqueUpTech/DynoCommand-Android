@@ -17,6 +17,9 @@ import java.util.concurrent.ConcurrentLinkedQueue
 import kotlin.concurrent.timer
 import kotlin.math.max
 
+/** Brake auto-releases after this long (2 minutes). */
+const val BRAKE_AUTO_OFF_MS = 120_000L
+
 /**
  * Owns the active transport, the ~20 Hz TX loop (mirroring COM_Comms.txThread),
  * and the RX framer/parser. Plain volatile fields are read by the UI on its own
@@ -151,6 +154,23 @@ class DynoController {
         c.targetSpeed = c.fromKph(reqKph.coerceIn(floor, ceil))
     }
 
+    /**
+     * Brake auto-release: the brake must not stay on indefinitely, so after
+     * BRAKE_AUTO_OFF_MS it drops back to No Load and pulses the brake-clear bit,
+     * exactly as a manual release does. Runs on the TX tick so it fires even
+     * while the Activity is backgrounded. Mirrors MainViewModel's brake timer.
+     */
+    private fun autoReleaseBrake(now: Long) {
+        val c = command
+        if (c.mode != DynoMode.Brake) { c.brakeOnSinceMs = 0L; return }
+        if (c.brakeOnSinceMs == 0L) c.brakeOnSinceMs = now
+        if (now - c.brakeOnSinceMs >= BRAKE_AUTO_OFF_MS) {
+            c.mode = DynoMode.NoLoad
+            c.brakeClearRequests = 6
+            c.brakeOnSinceMs = 0L
+        }
+    }
+
     private fun txTick() {
         try {
             // Flush queued handshake/identity replies, then run the comms-loss
@@ -164,6 +184,7 @@ class DynoController {
             command.shootoutActive = state.shootoutActive
             command.pcRampRate = state.pcRampRate
 
+            autoReleaseBrake(now)
             govern()
             send(PacketFactory.knob(command))
             send(PacketFactory.digitalInputs(command))
