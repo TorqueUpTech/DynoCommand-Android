@@ -1,14 +1,14 @@
 # Skill: Windows WPF build and run
 
 > **This app now lives in its own repo.** It moved out of this tree (was
-> `Windows\DynoCommandPC\`) to **`D:\Projects\Dyno\EDM-Simulator\`** —
-> github.com/TorqueUpTech/EDM-Simulator. It is the **simulator**; its handheld
+> `Windows\DynoCommandPC\`) to **`D:\Projects\Dyno\DD-EDM-Simulator\`** —
+> github.com/TorqueUpTech/DD-EDM-Simulator. It is the **simulator**; its handheld
 > code is a Jul-2026 snapshot of `D:\Projects\Dyno\DynoCommandPC\`
 > (github.com/TorqueUpTech/DynoCommandPC) and has diverged. Day-to-day handheld
 > work happens in DynoCommandPC; port fixes across rather than assuming parity.
 
 ## Project location
-`D:\Projects\Dyno\EDM-Simulator\DynoCommandPC\` — `DynoCommandPC.csproj` (.NET 8 WPF),
+`D:\Projects\Dyno\DD-EDM-Simulator\DynoCommandPC\` — `DynoCommandPC.csproj` (.NET 8 WPF),
 with `DynoCommandPC.sln` one level up at the repo root.
 
 ## Three build variants (ONE codebase, `EdmSim` / `DynoNet` flags)
@@ -25,7 +25,7 @@ The csproj gates the EDM Simulator behind an MSBuild property `EdmSim` (default 
 # Stop a running instance first — the build locks DynoCommandPC.exe
 Get-Process DynoCommandPC -ErrorAction SilentlyContinue | Stop-Process -Force
 
-cd D:\Projects\Dyno\EDM-Simulator\DynoCommandPC
+cd D:\Projects\Dyno\DD-EDM-Simulator\DynoCommandPC
 dotnet build DynoCommandPC.csproj                 # Sim variant (default)
 dotnet build DynoCommandPC.csproj -p:EdmSim=false # Handheld-only variant
 dotnet build DynoCommandPC.csproj -p:DynoNet=true # Network (DynoServer) variant
@@ -36,8 +36,8 @@ Outputs land in different TFM folders (no clobber):
 
 Publish to `dist\` (each folder ends up with its own `settings.json`):
 ```powershell
-dotnet publish DynoCommandPC.csproj -c Release -o D:\Projects\Dyno\EDM-Simulator\dist\EDM-Sim
-dotnet publish DynoCommandPC.csproj -c Release -p:EdmSim=false -o D:\Projects\Dyno\EDM-Simulator\dist\Handheld
+dotnet publish DynoCommandPC.csproj -c Release -o D:\Projects\Dyno\DD-EDM-Simulator\dist\EDM-Sim
+dotnet publish DynoCommandPC.csproj -c Release -p:EdmSim=false -o D:\Projects\Dyno\DD-EDM-Simulator\dist\Handheld
 ```
 
 ## Transport
